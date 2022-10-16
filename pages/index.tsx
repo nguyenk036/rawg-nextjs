@@ -1,9 +1,29 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
+  const API_KEY = process.env.NEXT_PUBLIC_RAWG_API_KEY;
+  const [listOfGames, setListOfGames] = useState([]);
+
+  useEffect(() => {
+      fetch(`https://api.rawg.io/api/games?key=${API_KEY}`)
+      .then((res) => {
+        console.log('entered');
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setListOfGames(data);
+      })
+  }, [API_KEY]);
+
+  useEffect(() => {
+    console.log(listOfGames);
+  }, [listOfGames]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -48,6 +68,16 @@ const Home: NextPage = () => {
             <h2>Deploy &rarr;</h2>
             <p>
               Instantly deploy your Next.js site to a public URL with Vercel.
+            </p>
+          </a>
+
+          <a
+            href=""
+            className={styles.card}
+          >
+            <h2>Head to RAWG App &rarr;</h2>
+            <p>
+              Browse Video Game Database Information
             </p>
           </a>
         </div>
