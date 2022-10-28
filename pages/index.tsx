@@ -11,12 +11,13 @@ import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import GameModal from "../Components/GameModal";
 import { Game } from "../types";
+import { useTheme as useNextTheme } from "next-themes";
 
 const Home: NextPage = () => {
   const [listOfGames, setListOfGames] = useState<Game[]>([]);
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
   const [modalVisibility, setModalVisibility] = useState<boolean>(false);
-
+  const { setTheme } = useNextTheme();
   useEffect(() => {
     fetch(
       `https://api.rawg.io/api/games?key=${process.env.NEXT_PUBLIC_RAWG_API_KEY}`
@@ -44,6 +45,8 @@ const Home: NextPage = () => {
 
   return (
     <Container responsive css={{ padding: "1rem", height: "100%" }}>
+      <Button onClick={(e) => setTheme("light")}>Light Theme</Button>
+      <Button onClick={(e) => setTheme("dark")}>Dark Theme</Button>
       <Grid.Container gap={2} justify="center">
         {listOfGames?.map((game: Game, index: number) => {
           return (
